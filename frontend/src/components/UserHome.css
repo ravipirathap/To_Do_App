@@ -1,0 +1,65 @@
+.h2-user{
+    text-align: center;
+    font-size: 50px;
+    color: rgb(94, 29, 29);
+}
+
+.user-body{
+    margin-left: 10%;
+    margin-top: 2%;
+}
+
+.h3-user{
+    font-size: 30px;  
+}
+
+.ul-user-notification{
+    margin-top: 15px;
+}
+
+.button-user-newtask{
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.ul-user-list{
+    margin-top: 35px;
+}
+
+.li-user-models{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+
+}
+
+.button-user-delete{
+    background-color: red;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    margin-left: 20px;
+}
+
+.button-user-update{
+    background-color: rgb(236, 222, 222);
+    color: black;
+    padding: 8px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.models-form-add-update{
+    margin-bottom: 25px;
+}
