@@ -1,56 +1,69 @@
-.h2-admin{
-    text-align: center;
-    font-size: 50px;
-    color: rgb(94, 29, 29);
+.h2-admin {
+  text-align: center;
+  font-size: 50px;
+  color: rgb(94, 29, 29);
 }
 
 .admin-dashboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /* min-height: 100vh; */
-    /* background-color: #f0f0f0; */
-  }
-  
-  .task-user {
-    display: flex;
-    width: 100%;
-    max-width: 1000px; /* Adjust this value as needed */
-    justify-content: space-between;
-  }
-  
-  .tasks-section,
-  .users-section {
-    flex: 1;
-    padding: 0 5%;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: rgb(240, 229, 229);
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* min-height: 100vh; */
+  /* background-color: #f0f0f0; */
+}
 
-  .h3-admin{
-    text-align: center;
-    font-size: 20px;
-  }
+.task-user {
+  display: flex;
+  width: 100%;
+  max-width: 1000px; /* Adjust this value as needed */
+  justify-content: space-between;
+}
 
-  .button-admin{
-    margin-top: 15px;
-  }
+.tasks-section,
+.users-section {
+  flex: 1;
+  padding: 0 5%;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgb(240, 229, 229);
+}
 
-  .li-admin{
-    margin-top: 10px;
-  }
+.h3-admin {
+  text-align: center;
+  font-size: 20px;
+}
 
-  .user-li-admin{
-    margin-top: 15px;
-  }
+.button-admin {
+  margin-top: 15px;
+  font-size: 16px;
+}
 
-  .users-section{
-    margin-left: 5%; /* Add margin to create the gap */
-  }
+.button-admin-delete {
+  background-color: red;
+  color: white;
+  padding: 3px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 15px;
+  margin-left: 20px;
+}
 
-  .h3-task-admin{
-    font-size: 25px;
-  }
+.li-admin {
+  margin-top: 10px;
+}
+
+.user-li-admin {
+  margin-top: 15px;
+}
+
+.users-section {
+  margin-left: 5%; /* Add margin to create the gap */
+}
+
+.h3-task-admin {
+  font-size: 25px;
+}

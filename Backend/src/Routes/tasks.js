@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Task = require("../Models/task");
 const User = require("../Models/user");
-const Role = require("../Models/role")
+const Role = require("../Models/role");
 const { authMiddleware, isAdmin } = require("../Middleware/Auth");
 
 /**
@@ -91,7 +91,6 @@ const { authMiddleware, isAdmin } = require("../Middleware/Auth");
  *         description: Error updating task
  */
 
-
 /**
  * @swagger
  * /tasks/{id}:
@@ -114,7 +113,6 @@ const { authMiddleware, isAdmin } = require("../Middleware/Auth");
  *       500:
  *         description: Error deleting task
  */
-
 
 /**
  * @swagger
@@ -194,7 +192,7 @@ router.post("/tasks", authMiddleware, async (req, res) => {
 
     user.tasks.push(newTask._id);
     await user.save();
-    const io = req.app.get("io")
+    const io = req.app.get("io");
     io.emit("taskNotification", { message: "New task added!" });
     res.status(201).json(newTask);
   } catch (error) {
@@ -207,8 +205,6 @@ router.post("/tasks", authMiddleware, async (req, res) => {
 // Update a task with priority and mark as done
 
 router.put("/tasks/:id", authMiddleware, async (req, res) => {
- 
-
   try {
     const taskId = req.params.id;
     const { title, priority, done } = req.body;
@@ -222,22 +218,25 @@ router.put("/tasks/:id", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "Task not found" });
     }
 
-  
     const user = await User.findOne({ _id: req.user.id }).populate("tasks");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const taskIndex = user.tasks.findIndex(task => task._id.toString() === taskId);
+    const taskIndex = user.tasks.findIndex(
+      (task) => task._id.toString() === taskId
+    );
 
     if (taskIndex === -1) {
-      return res.status(404).json({ message: "Task not found in user's tasks" });
+      return res
+        .status(404)
+        .json({ message: "Task not found in user's tasks" });
     }
 
     user.tasks[taskIndex] = updatedTask;
     await user.save();
-    const io = req.app.get("io")
+    const io = req.app.get("io");
     io.emit("taskNotification", { message: "Task Updated!" });
     res.json(updatedTask);
   } catch (error) {
@@ -245,11 +244,10 @@ router.put("/tasks/:id", authMiddleware, async (req, res) => {
   }
 });
 
-
 // Delete a task by ID
 
 router.delete("/tasks/:id", authMiddleware, async (req, res) => {
-  const taskId = req.params.id; 
+  const taskId = req.params.id;
 
   try {
     const user = await User.findOne({ _id: req.user.id }).populate("tasks");
@@ -258,26 +256,26 @@ router.delete("/tasks/:id", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const taskIndex = user.tasks.findIndex(task => task._id.toString() === taskId);
+    const taskIndex = user.tasks.findIndex(
+      (task) => task._id.toString() === taskId
+    );
 
     if (taskIndex === -1) {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    const deletedTask = user.tasks.splice(taskIndex, 1)[0]; 
+    const deletedTask = user.tasks.splice(taskIndex, 1)[0];
 
-    await user.save(); 
+    await user.save();
 
-    await Task.findByIdAndDelete(deletedTask._id); 
-    const io = req.app.get("io")
+    await Task.findByIdAndDelete(deletedTask._id);
+    const io = req.app.get("io");
     io.emit("taskNotification", { message: "task deleted!" });
     res.json({ message: "Task deleted" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting task" });
   }
 });
-
-
 
 // Retrieve the list of tasks with pagination
 // router.get("/tasks", async (req, res) => {
@@ -303,11 +301,10 @@ router.delete("/tasks/:id", authMiddleware, async (req, res) => {
 //   }
 // });
 
-
 router.get("/tasks", authMiddleware, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10; 
+    const limit = parseInt(req.query.limit) || 10;
     let tasks = [];
     const userID = req.user.id;
     const user = await User.findById(userID);
@@ -342,22 +339,24 @@ router.get("/tasks", authMiddleware, async (req, res) => {
 
     res.json(tasks);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving tasks", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error retrieving tasks", error: error.message });
   }
 });
 
-router.get('/tasks/:taskId', authMiddleware, async (req, res) => {
+router.get("/tasks/:taskId", authMiddleware, async (req, res) => {
   try {
-    const {taskId} = req.params;
+    const { taskId } = req.params;
     const task = await Task.findById(taskId);
 
     if (!task) {
-      return res.status(404).json({ message: 'Task not found' });
+      return res.status(404).json({ message: "Task not found" });
     }
 
     res.json(task);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 });
 module.exports = router;

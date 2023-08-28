@@ -77,7 +77,7 @@ router.get("/users", authMiddleware, isAdmin, async (req, res) => {
         // }));
         return {
           _id: user._id,
-          username: user.username,
+          username: user.full_name,
           email: user.email,
           taskCounts: tasks,
           // task: task,
@@ -92,6 +92,29 @@ router.get("/users", authMiddleware, isAdmin, async (req, res) => {
     res
       .status(500)
       .json({ message: "Error retrieving users", error: error.message });
+  }
+});
+
+router.delete("/users/:id", authMiddleware,isAdmin , async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const userToDelete = await User.findOne({ _id: userId });
+
+    if (!userToDelete) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await Task.deleteMany({ _id: { $in: userToDelete.tasks } });
+
+    await User.findByIdAndDelete(userId);
+
+    const io = req.app.get("io");
+    io.emit("userNotification", { message: "user deleted!" });
+
+    res.json({ message: "User deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting user" });
   }
 });
 
