@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import "./AdminDashboard.css";
+import { Link } from "react-router-dom";
 
 const socket = io("http://localhost:5000");
 
@@ -62,7 +63,7 @@ const AdminDashboard = () => {
         ...prevNotifications,
         data.message,
       ]);
-      console.log(data);
+      
     });
 
     return () => {
@@ -78,6 +79,7 @@ const AdminDashboard = () => {
           <li key={index}>{notification}</li>
         ))}
       </ul>
+      <Link to= "/group"><p>Group</p></Link>
       <div className="task-user">
         <div className="tasks-section">
           <h3 className="h3-task-admin">Tasks</h3>

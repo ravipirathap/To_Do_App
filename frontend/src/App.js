@@ -6,6 +6,8 @@ import AdminDashboard from './components/admindashboard';
 import UserHome from './components/userhome';
 import AddTaskForm from './components/addtask';
 import UpdateTaskForm from './components/updatetask';
+import Group from './components/group';
+import ChatPage from './components/chat';
 
 const App = () => {
   return (
@@ -17,6 +19,9 @@ const App = () => {
         <Route path="/user" element={<UserHome />}/>
         <Route path="/addtask" element={<AddTaskForm />}/>
         <Route path="/updatetask/:id" element={<UpdateTaskForm/>}/>
+        <Route path="/group" element={<Group/>}/>
+        <Route path="/chat/:id" element={<ChatPage/>}/>
+
       </Routes>
     </BrowserRouter>
   );

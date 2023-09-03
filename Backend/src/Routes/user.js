@@ -53,9 +53,17 @@ const { isAdmin, authMiddleware } = require("../Middleware/Auth");
  *                 description: The count of tasks for each priority level
  */
 
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
 
-
-router.get("/users", authMiddleware, isAdmin, async (req, res) => {
+router.get("/admin/users", authMiddleware, isAdmin, async (req, res) => {
   try {
     const users = await User.find().populate("tasks");
 
@@ -69,18 +77,12 @@ router.get("/users", authMiddleware, isAdmin, async (req, res) => {
           }
           return acc;
         }, {});
-        // const task = user.tasks.map((task) => ({
-        //   _id: task._id,
-        //   title: task.title,
-        //   priority: task.priority,
-        //   done: task.done,
-        // }));
+   
         return {
           _id: user._id,
           username: user.full_name,
           email: user.email,
           taskCounts: tasks,
-          // task: task,
         };
       })
     );

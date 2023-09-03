@@ -4,7 +4,8 @@ import io from 'socket.io-client';
 import UpdateTaskFormModal from './updatetask';
 import AddTaskFormModal from './addtask';
 import './UserHome.css';
-
+import Group from './group';
+import { Link } from 'react-router-dom';
 const socket = io('http://localhost:5000');
 
 const UserHome = () => {
@@ -13,6 +14,7 @@ const UserHome = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [TaskId, setTaskId] = useState(null);
+  const [users , setUsers] = useState([])
  
   const fetchTasks = async () => {
     try {
@@ -27,9 +29,23 @@ const UserHome = () => {
       console.error('Error fetching tasks:', error);
     }
   };
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/users', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    }
+  };
   useEffect(() => {
 
     fetchTasks();
+    fetchUsers()
 
     socket.on('taskNotification', (data) => {
       setUserNotifications((prevNotifications) => [
@@ -46,7 +62,7 @@ const UserHome = () => {
     try {
       await axios.delete(`http://localhost:5000/tasks/${id}`,
       {headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,}
+        Authorization: `Bearer ${localStorage.getItem('token')}`}
       },
       );
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
@@ -72,6 +88,16 @@ const UserHome = () => {
     <div className="user-home">
       <h2 className='h2-user'>User Home</h2> 
       <div className='user-body'> 
+      <ul className='ul-user'>
+        {users.map((user, index) => (
+          <li key={index}>{user.full_name}
+          <Link to={`/chat/${user._id}`} className="chat-link">
+         Chat
+        </Link>
+        </li>
+        ))}
+      </ul>
+     
       <ul className='ul-user-notification'>
         {userNotifications.map((notification, index) => (
           <li key={index}>{notification}</li>
@@ -88,6 +114,7 @@ const UserHome = () => {
           </>
         ))}
       </ul>
+      <Group isAdmin = "false"/>
       <div className='models-form-add-update'>
       {showUpdateModal && (
         <UpdateTaskFormModal

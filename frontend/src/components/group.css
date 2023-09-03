@@ -1,0 +1,86 @@
+
+  
+  /* Style the main container */
+  .group {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Style the Create New Group section */
+  .create  {
+    font-size: 20px;
+    margin-top: 0;
+  }
+  
+  .input [type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .groupselect .messagesend {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .groupselect:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Style the group list */
+  .ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .groupli {
+    margin-bottom: 10px;
+  }
+  
+  /* Style the chat box */
+  .chat-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+  }
+  
+  .chat-message {
+    margin-bottom: 5px;
+  }
+  
+  /* Style the input and send button in the group chat section */
+  .messageinput[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Center the send button */
+  .groupselect:last-child {
+    vertical-align: middle;
+  }
+  
+  /* Style the Add Member section */
+  .select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  

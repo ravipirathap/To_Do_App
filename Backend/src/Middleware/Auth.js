@@ -4,7 +4,6 @@ const Role = require("../Models/role");
 
 const authMiddleware = async (req, res, next) => {
   try {
-   
     const token = req.header("Authorization").replace("Bearer ", "");
     const decoded = jwt.verify(token, process.env.Jwt_secret);
     const user = await User.findOne({ email: decoded.email });
@@ -17,7 +16,8 @@ const authMiddleware = async (req, res, next) => {
   } catch (error) {
     res
       .status(401)
-      .json({ message: "Please authenticate", error: error.message });
+      .json({ message: "Please authenticate"});
+      console.log(error)
   }
 };
 

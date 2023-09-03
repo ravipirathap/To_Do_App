@@ -12,7 +12,7 @@ const LoginForm = () => {
     try {
       const formData = {
         email: email,
-        password: password,
+        password: password
       };
 
       const response = await fetch("http://localhost:5000/login", {
@@ -26,9 +26,12 @@ const LoginForm = () => {
         const data = await response.json();
         console.log(data.data);
         localStorage.setItem('token', data.data.token);
+      
         if (data.data.user.role.name === 'admin') {
+          localStorage.setItem('role','admin')
           navigate('/admin');
         } else {
+          localStorage.setItem('role', 'user');
           navigate('/user');
         }
       } else {

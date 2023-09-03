@@ -13,8 +13,10 @@ const signupRoutes = require("./Routes/signup");
 const loginRoutes = require("./Routes/login");
 const taskRoutes = require("./Routes/tasks");
 const userRoutes = require("./Routes/user");
+const gruopRoutes = require("./Routes/group")
 const socketIo = require("socket.io")
 const http = require("http")
+const User = require("./Models/user")
 
 
 
@@ -35,7 +37,28 @@ const io = socketIo(server, {
 app.set("io", io); 
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
+  socket.on("userConnected", async ({ userId }) => {
+    try {
+      const user = await User.findByIdAndUpdate(userId, { socketId: socket.id });
+      console.log(`Updated socketId for user ${userId} to ${socket.id}`);
+    } catch (err) {
+      console.error("Failed to update user's socketId:", err);
+    }
+  });
 
+ 
+  socket.on("disconnect", async () => {
+    try {
+      const user = await User.findOneAndUpdate({ socketId: socket.id }, { socketId: null });
+      if (user) {
+        console.log(`Cleared socketId for user ${user._id}`);
+      } else {
+        console.log("User not found");
+      }
+    } catch (err) {
+      console.error("Failed to clear user's socketId:", err);
+    }
+  });
   // Handle admin notifications
   socket.on("adminNotification", (data) => {
     socket.broadcast.emit("adminNotification", data);
@@ -46,7 +69,10 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("taskNotification", data);
   });
 
-  // ... Other event handlers ...
+ // Handle the group message
+  socket.on("groupMessage", (data) => {
+    socket.broadcast.emit("groupMessage", data);
+  });
 });
 mongoose
   .connect("mongodb://localhost/Tasks", {
@@ -83,6 +109,7 @@ app.use("/", signupRoutes);
 app.use("/", loginRoutes);
 app.use("/", userRoutes);
 app.use("/", taskRoutes);
+app.use("/",gruopRoutes)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Middleware to check database connection before processing requests
